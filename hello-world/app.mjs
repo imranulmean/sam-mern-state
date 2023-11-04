@@ -27,48 +27,47 @@ export const lambdaHandler = async (event, context) => {
     
         // ----------------------
         const jsonParseEventBody=JSON.parse(event.body);
-       // const customerId = event.body.customerId;
-        // if(!customerId){
-        //   if(event.queryParam==="signUp"){
-        //     response= await signup(event);
-            
-        //   }
+      const customerId = event.pathParameters.customerId;
+        if(!customerId){
+          if(event.queryParam==="signUp"){
+            response= await signup(event);
+          }
           if(jsonParseEventBody.queryParam==="signIn"){
             response= await signin(jsonParseEventBody);
           }
-        //   if(event.queryParam==="createListing"){
-        //     response= await createListing(event);
-        //   } 
+          if(jsonParseEventBody.queryParam==="createListing"){
+            response= await createListing(event);
+          } 
       
-        //   if(event.queryParam==="getUserListings"){
-        //     response= await getUserListings(event);
-        //   }
+          if(jsonParseEventBody.queryParam==="getUserListings"){
+            response= await getUserListings(jsonParseEventBody);
+          }
           
-        //   if(event.queryParam==="getListings"){
-        //     response= await getListings(event);
-        //   }
+          if(jsonParseEventBody.queryParam==="getListings"){
+            response= await getListings(event);
+          }
           
-        //   if(event.queryParam==="google"){
-        //     response= await google(event);
-        //   }       
-        // }
-        // if(customerId){
-        //   if(event.body.queryParam==="updateUser"){
-        //     response= await updateUser(event);
-        //   // response=event;
-        //   }
+          if(jsonParseEventBody.queryParam==="google"){
+            response= await google(event);
+          }       
+        }
+        if(customerId){
+          jsonParseEventBody.customerId=customerId;
+          if(jsonParseEventBody.queryParam==="updateUser"){
+            response= await updateUser(jsonParseEventBody);
+          // response=event;
+          }
           
-        //   if(event.body.queryParam==="getListing"){
-        //     response= await getListing(event);
-        //   }
+          if(jsonParseEventBody.queryParam==="getListing"){
+            response= await getListing(jsonParseEventBody);
+          }
           
-        //   if(event.body.queryParam==="updateListing"){
-        //     response= await updateListing(event);
-        //   }      
-        // }
-
-       // finalRes['body']=response;
+          if(jsonParseEventBody.queryParam==="updateListing"){
+            response= await updateListing(event);
+          }      
+        }
        finalRes.body=JSON.stringify(response);
+      //finalRes.body=JSON.stringify(event);
         return finalRes;        
     } catch (error) {
         return error;

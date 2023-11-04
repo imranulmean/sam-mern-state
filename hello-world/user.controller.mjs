@@ -18,17 +18,17 @@ export const getUserListings = async (event3) => {
 
 export const updateUser = async (event3) => {
   try {
-    if (event3.body.password) {
-      event3.body.password = bcryptjs.hashSync(event3.body.password, 10);
+    if (event3.password) {
+      event3.password = bcryptjs.hashSync(event3.body.password, 10);
     }
     const updatedUser = await User.findByIdAndUpdate(
       event3.customerId,
       {
         $set: {
-          username: event3.body.username,
-          email: event3.body.email,
-          password: event3.body.password,
-          avatar: event3.body.avatar,
+          username: event3.username,
+          email: event3.email,
+          password: event3.password,
+          avatar: event3.avatar,
         },
       },{ new: true }
     );

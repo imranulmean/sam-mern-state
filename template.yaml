@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-mern-state
+
+  Sample SAM Template for sam-mern-state
+
+Globals:
+  Api:
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
+
+Resources:
+  NodeModulesLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: ./nodejs/
+      CompatibleRuntimes:
+        - nodejs18.x  # Adjust this based on your Lambda function runtime
+      Description: Node Modules for Lambda
+
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: hello-world/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+      Layers:
+        - !Ref NodeModulesLayer      
+      Events:
+        MernStateGet:
+          Type: Api
+          Properties:
+            Path: /mernStateGet
+            Method: get
+        MernStatePost:
+          Type: Api
+          Properties:
+            Path: /mernStatePost
+            Method: post
+        MernStatePost2Param:
+          Type: Api
+          Properties:
+            Path: /mernStatePost/{customerId}
+            Method: post     
+

@@ -90,7 +90,7 @@ export const updateListing = async (event3) => {
   try {
     const updatedListing = await Listing.findByIdAndUpdate(
       event3.customerId,
-      event3.body,
+      event3,
       { new: true }
     );
     res={updatedListing, success:true};
